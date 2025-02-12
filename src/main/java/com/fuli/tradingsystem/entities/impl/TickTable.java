@@ -22,7 +22,7 @@ public class TickTable implements ITickTable {
         this.tickSizes = Arrays.stream(tickSizes)
                 .mapToObj(BigDecimal::valueOf)
                 .toArray(BigDecimal[]::new);
-        this.validateInput();
+    	this.validateInput();
     }
 
     /**
@@ -42,9 +42,6 @@ public class TickTable implements ITickTable {
             }
             return s2;
         });
-
-
-
     }
     
     @Override

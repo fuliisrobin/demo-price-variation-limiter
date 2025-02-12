@@ -21,8 +21,6 @@ public class PlaceOrderController {
 	
 	@PostMapping("/place")
 	public PlaceOrderResult placeStockOrder(@RequestBody PlaceOrderAction<StockOrder, CommonPlaceOrderOptions> placeOrderAction) {
-		placeOrderAction.getOrder().getInstrument().getType();
-		// TODO validation
 		return this.placeStockOrderService.placeOrder(placeOrderAction);
 	}
 }
