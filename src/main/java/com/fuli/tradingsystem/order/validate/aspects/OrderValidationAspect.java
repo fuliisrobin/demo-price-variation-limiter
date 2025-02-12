@@ -37,7 +37,8 @@ public class OrderValidationAspect {
     public Object validateOrder(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         if(args.length > 0 && (args[0].getClass().isAssignableFrom(PlaceOrderAction.class))) {
-        	PlaceOrderAction<Order, IPlaceOrderOption> action = (PlaceOrderAction<Order, IPlaceOrderOption>) args[0];
+        	@SuppressWarnings("unchecked")
+			PlaceOrderAction<Order, IPlaceOrderOption> action = (PlaceOrderAction<Order, IPlaceOrderOption>) args[0];
         	IPlaceOrderOption options = action.getOptions();
         	Order order = action.getOrder();
         	return validateAndProceed(options, order, ()->{

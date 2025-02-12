@@ -1,6 +1,7 @@
 package com.fuli.tradingsystem.entities.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fuli.tradingsystem.entities.ITickTable;
-import com.fuli.tradingsystem.entities.impl.TickTable;
 
 public class TickTableTest {
     private ITickTable tickTable;
