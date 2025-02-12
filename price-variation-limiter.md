@@ -149,7 +149,7 @@ Implement a price variation limiter with following features, the input is an Ord
 
 ## Orders and output
 ### Option
-
+**Note:** This table is using `reference price` - `order price` to calculate the vairation, which is inconsistent with the 2nd table, tweaked this in UT.
 | No | Instrument    | Side | Price  | Alert | Variation                              | Description         |
 |----|---------------|------|--------|-------|----------------------------------------|---------------------|
 | 0  | KS200400F5.KS | Buy  | 8.81   | No    | (8.81-8.81)/0.01 = 0                   | 0 < 8, pass         |
@@ -166,12 +166,13 @@ Implement a price variation limiter with following features, the input is an Ord
 | 11 | KS200400F5.KS | Sell | 10.20  | Yes   | (9.95-10)/0.01 + (10-10.20)/0.05 = -9  | abs(-9) >= 8, block |
 | 12 | KS200400F5.KS | Buy  | 10.10  | No    | (10.15-10.10)/0.05 = 1                 | 1 < 8, pass         |
 | 13 | KS200400F5.KS | Buy  | 9.94   | Yes   | 10.15-10)/0.05 + (10-9.94)/0.01 = 9    | 9 >= 8, block       |
-| 14 | KS200400F5.KS | Buy  | 10.06	 | No    | (10.15-10.60)/0.05 = -9                | buy higher, pass    |
+| 14 | KS200400F5.KS | Buy  | <span style="color:red">~~10.06~~</span> 10.60	 | No    | (10.15-10.60)/0.05 = -9  | buy higher, pass    |
 | 15 | KS200400F5.KS | Sell | 	10.30 | No    | (10.25-10.30)/0.05 = -1                | abs(-1) < 8, pass   |
 | 16 | KS200400F5.KS | Sell | 9.96   | No    | (10.25-10)/0.05 + (10-9.96)/0.01 = 9   | sell lower, pass    |
 | 17 | KS200400F5.KS | Sell | 10.70  | Yes   | (10.25-10.70)/0.05 = -9                | abs(-9) >= 8, block |
 ### Stock
 
+**Note:** This table is using `|reference price - order price|` to calculate the vairation, which is inconsistent with the 1st table, tweaked this in UT.
 | No | Instrument | Side  | Price | Alert | Variation        | Description      |
 |----|------------|-------|-------|-------|------------------|------------------|
 | 1	 | VOD.L	     | Buy   | 	245  | 	No	  | 245 - 245 = 0	   | 0 < 10, pass     |

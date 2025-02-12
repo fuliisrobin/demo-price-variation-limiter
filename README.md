@@ -1,197 +1,53 @@
-```mermaid
-classDiagram
-    class IPriceVarationLimitStrategy {
-        + getType(): PriceVariationType
-        + getValue(): BigDecimal
-        + getScenario(): PriceVariationScenario
-    }
+# Demo Trading System
 
-    class IPriceVariation
+This project is a demo trading system that simulates trading operations.
 
-    class ITickTable {
-        + getTickSize(price: BigDecimal): BigDecimal
-    }
+## Prerequisites
 
-    class IOrderPlaceOption {
-        + isForce(): boolean
-    }
+Before you begin, ensure you have met the following requirements:
+- Java Development Kit (JDK) installed (version 21 or higher)
+- Apache Maven installed
+- Eclipse IDE (or any other preferred IDE)
 
-    class InstrumentType {
-        <<enumeration>>
-        STOCK
-        FUTURE
-        OPTION
-    }
+## Installation
 
-    class OrderSide {
-        <<enumeration>>
-        BUY
-        SELL
-    }
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/yourusername/demo-trading-system.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd demo-trading-system
+    ```
 
-    class PriceVariationScenario {
-        <<enumeration>>
-        ADVANTAGE
-        DISADVANTAGE
-        BOTH
-        SKIP
-    }
+## Running the Project
 
-    class PriceVariationType {
-        <<enumeration>>
-        PERCENTAGE
-        ABSOLUTE_VALUE
-        TICK_SIZE
-    }
+1. Open the project in Eclipse:
+    - Go to `File` > `Import...`
+    - Select `Existing Maven Projects`
+    - Browse to the project directory and click `Finish`
 
-    class Instrument {
-        + symbol: String
-        + type: String
-    }
+2. Build the project using Maven:
+    ```sh
+    mvn clean install
+    ```
 
-    class Order {
-        + instrument: Instrument
-        + side: OrderSide
-        + price: BigDecimal
-        + getInstrument(): Instrument
-        + setInstrument(instrument: Instrument)
-        + getSide(): OrderSide
-        + setSide(side: OrderSide)
-        + getPrice(): BigDecimal
-        + setPrice(price: BigDecimal)
-    }
+3. Run the application:
+    - Right-click on the project in Eclipse
+    - Select `Run As` > `Java Application`
 
-    class FutureOrder {
-        + FutureOrder(instrument: Instrument, side: OrderSide, price: BigDecimal)
-    }
+## Usage
 
-    class OptionOrder {
-        + quantity: BigDecimal
-        + OptionOrder(instrument: Instrument, side: OrderSide, price: BigDecimal, quantity: BigDecimal)
-        + getQuantity(): BigDecimal
-        + setQuantity(quantity: BigDecimal)
-    }
+Once the application is running, you can interact with the trading system through the provided user interface or API endpoints.
 
-    class StockOrder {
-        + quantity: BigDecimal
-        + StockOrder(instrument: Instrument, side: OrderSide, price: BigDecimal, quantity: BigDecimal)
-        + getQuantity(): BigDecimal
-        + setQuantity(quantity: BigDecimal)
-    }
+## Contributing
 
-    class Price {
-        + lastPrice: BigDecimal
-        + theoreticalPrice: BigDecimal
-        + closePrice: BigDecimal
-        + getReferencePrice(): BigDecimal
-        + getLastPrice(): BigDecimal
-        + setLastPrice(lastPrice: BigDecimal)
-        + getTheoreticalPrice(): BigDecimal
-        + setTheoreticalPrice(theoreticalPrice: BigDecimal)
-        + getClosePrice(): BigDecimal
-        + setClosePrice(closePrice: BigDecimal)
-    }
+To contribute to this project, please fork the repository and create a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-    class TickTable {
-        + segments: BigDecimal[]
-        + tickSizes: BigDecimal[]
-        + TickTable(segments: BigDecimal[], tickSizes: BigDecimal[])
-        + TickTable(segments: double[], tickSizes: double[])
-        + getTickSize(price: BigDecimal): BigDecimal
-    }
+## License
 
-    class PlaceOrderController {
-        + placeStockOrder(orderAction: PlaceOrderAction<StockOrder, CommonOrderPlaceOptions>)
-    }
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
-    class CommonOrderPlaceOptions {
-        + force: boolean
-        + isForce(): boolean
-        + setForce(force: boolean)
-    }
+## Contact
 
-    class PlaceOrderAction {
-        + order: T
-        + options: O
-        + getOrder(): T
-        + setOrder(order: T)
-        + getOptions(): O
-        + setOptions(options: O)
-    }
-
-    class IPriceVariationLimitStrategyService {
-        + getPriceVariationLimitStrategy(instrument: Instrument): IPriceVarationLimitStrategy
-    }
-
-    class IQuoteService {
-        + getPrice(instrument: Instrument): Price
-    }
-
-    class ITickTableService {
-        + getTickTable(instrument: Instrument): ITickTable
-    }
-
-    class PriceVariationLimitStrategyService {
-        + getPriceVariationLimitStrategy(instrument: Instrument): IPriceVarationLimitStrategy
-    }
-
-    class QuoteService {
-        + getPrice(instrument: Instrument): Price
-    }
-
-    class SimpleQuoteRepository {
-        + SimpleQuoteRepository()
-        + init()
-        + addData(symbol: String, lastPrice: Double, closePrice: Double, theoPrice: Double)
-    }
-
-    class SimpleTickTableRepository {
-        + SimpleTickTableRepository()
-        + init()
-    }
-
-    class TickTableService {
-        + getTickTable(instrument: Instrument): ITickTable
-    }
-
-    class IOrderValidator {
-        + validate(o: Order): OrderValidationResult
-    }
-
-    class OrderValidationResult {
-        + level: OrderValidationResultLevel
-        + message: String
-    }
-
-    class OrderValidationResultLevel {
-        <<enumeration>>
-        SKIP
-        PASS
-        ALERT
-        BLOCK
-    }
-
-    class PriceLimitOrderValidator {
-        + validate(o: Order): OrderValidationResult
-        + validatePriceVariation(order: Order, strategy: IPriceVarationLimitStrategy, referencePrice: BigDecimal): OrderValidationResult
-    }
-
-    class OrderValidationEngine {
-        + validate(o: Order)
-    }
-
-    class PriceVariationLimiterApplication
-
-    Order <|-- FutureOrder
-    Order <|-- OptionOrder
-    Order <|-- StockOrder
-    TickTable --|> ITickTable
-    CommonOrderPlaceOptions --|> IOrderPlaceOption
-    PlaceOrderAction --|> Order
-    PlaceOrderAction --|> IOrderPlaceOption
-    PriceVariationLimitStrategyService --|> IPriceVariationLimitStrategyService
-    QuoteService --|> IQuoteService
-    TickTableService --|> ITickTableService
-    PriceLimitOrderValidator --|> IOrderValidator
-    OrderValidationResult --|> OrderValidationResultLevel
-```
+If you have any questions or feedback, please contact [44071928@qq.com](mailto:44071928@qq.com).

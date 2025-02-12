@@ -60,7 +60,7 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 	public static OrderValidateResult validatePriceVariation(Order order, IPriceVarationLimitStrategy strategy,
 			BigDecimal referencePrice, ITickTable tickTable) {
 		// Why reference price - order price??
-		BigDecimal priceDiff = referencePrice.subtract(order.getPrice());
+		BigDecimal priceDiff = order.getPrice().subtract(referencePrice);
 		BigDecimal priceVariation = BigDecimal.ZERO;
 		PriceVariationType variationType = strategy.getType();
 
@@ -84,19 +84,19 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 
 		OrderValidationState validationResult;
 		if (priceVariation.abs().compareTo(strategy.getValue()) >= 0) {
-			alertMsg.append(",").append(order.getSide().name()).append(priceVariation.signum() < 0 ? " higher" : " lower");
+			alertMsg.append(",").append(order.getSide().name()).append(priceVariation.signum() > 0 ? " higher" : " lower");
 
 			if (strategy.getScenario() == PriceVariationScenario.Both) {
 				validationResult = OrderValidationState.Block;
 			} else if (strategy.getScenario() == PriceVariationScenario.Advantage) {
 				if (order.getSide() == TradeSide.Buy) {
 					validationResult = priceVariation.signum() > 0
-							? /* Buy Low, Block */OrderValidationState.Block
-							: /* Buy High, Pass */ OrderValidationState.Pass;
+							? /* Buy High, Pass */ OrderValidationState.Pass
+							: /* Buy Low, Block */OrderValidationState.Block;
 				} else if(order.getSide() == TradeSide.Sell) {
 					validationResult = priceVariation.signum() > 0
-							? /* Sell Low, Pass */OrderValidationState.Pass
-							: /* Sell High, Block */ OrderValidationState.Block;
+							? /* Sell High, Block */ OrderValidationState.Block
+							: /* Sell Low, Pass */OrderValidationState.Pass;
 				} else {
 					throw new IllegalArgumentException(
 							"Side of Orderside can only be Buy or Sell when executing variation validation.");
@@ -104,12 +104,12 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 			} else if (strategy.getScenario() == PriceVariationScenario.Disadvantage) {
 				if (order.getSide() == TradeSide.Buy) {
 					validationResult = priceVariation.signum() > 0
-							?  /* Buy Low, Pass */OrderValidationState.Pass
-							:/* Buy High, Block */ OrderValidationState.Block;
+							? /* Buy High, Block */ OrderValidationState.Block
+							: /* Buy Low, Pass */OrderValidationState.Pass;
 				} else if(order.getSide() == TradeSide.Sell) {
 					validationResult = priceVariation.signum() > 0
-							? /* Sell Low, Block */OrderValidationState.Block
-							: /* Sell High, Pass */ OrderValidationState.Pass;
+							? /* Sell High, Pass */ OrderValidationState.Pass
+							: /* Sell Low, Block */OrderValidationState.Block;
 				} else {
 					throw new IllegalArgumentException(
 							"Side of Orderside can only be Buy or Sell when executing variation validation.");
