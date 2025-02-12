@@ -2,7 +2,7 @@ package com.fuli.tradingsystem.entities;
 
 import java.math.BigDecimal;
 
-public interface IPriceVarationLimitStrategy {
+public interface IPriceVariationLimitStrategy {
     PriceVariationType getType();
     BigDecimal getValue();
     PriceVariationScenario getScenario();

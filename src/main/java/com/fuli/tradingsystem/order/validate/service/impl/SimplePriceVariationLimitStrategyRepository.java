@@ -5,13 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
-import com.fuli.tradingsystem.entities.IPriceVarationLimitStrategy;
+import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.PriceVariationScenario;
 import com.fuli.tradingsystem.entities.PriceVariationType;
 
 @Component
 public class SimplePriceVariationLimitStrategyRepository
-		extends ConcurrentHashMap<String, IPriceVarationLimitStrategy> {
+		extends ConcurrentHashMap<String, IPriceVariationLimitStrategy> {
 	private static final long serialVersionUID = 1L;
 
 	public SimplePriceVariationLimitStrategyRepository() {

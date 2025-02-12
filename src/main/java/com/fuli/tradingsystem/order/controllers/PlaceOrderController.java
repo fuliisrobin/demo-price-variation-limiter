@@ -13,13 +13,13 @@ import com.fuli.tradingsystem.order.place.service.PlaceOrderResult;
 import com.fuli.tradingsystem.order.place.service.impl.PlaceStockOrderService;
 
 @RestController
-@RequestMapping("/api/stockorder")
+@RequestMapping("/api")
 public class PlaceOrderController {
 	
 	@Autowired
 	PlaceStockOrderService placeStockOrderService;
 	
-	@PostMapping("/place")
+	@PostMapping("/stockorder/place")
 	public PlaceOrderResult placeStockOrder(@RequestBody PlaceOrderAction<StockOrder, CommonPlaceOrderOptions> placeOrderAction) {
 		return this.placeStockOrderService.placeOrder(placeOrderAction);
 	}

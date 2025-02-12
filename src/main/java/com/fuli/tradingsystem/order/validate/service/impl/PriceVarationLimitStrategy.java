@@ -2,11 +2,11 @@ package com.fuli.tradingsystem.order.validate.service.impl;
 
 import java.math.BigDecimal;
 
-import com.fuli.tradingsystem.entities.IPriceVarationLimitStrategy;
+import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.PriceVariationScenario;
 import com.fuli.tradingsystem.entities.PriceVariationType;
 
-public class PriceVarationLimitStrategy implements IPriceVarationLimitStrategy {
+public class PriceVarationLimitStrategy implements IPriceVariationLimitStrategy {
 	
 	private PriceVariationType type;
 	private BigDecimal value;

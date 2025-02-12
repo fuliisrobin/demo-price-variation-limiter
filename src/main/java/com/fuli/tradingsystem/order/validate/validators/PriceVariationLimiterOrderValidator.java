@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fuli.tradingsystem.entities.IPriceVarationLimitStrategy;
+import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.ITickTable;
 import com.fuli.tradingsystem.entities.PriceVariationScenario;
 import com.fuli.tradingsystem.entities.PriceVariationType;
@@ -31,7 +31,7 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 	public OrderValidateResult validate(Order order) {
 		Instrument instrument = order.getInstrument();
 
-		IPriceVarationLimitStrategy strategy = priceLimitStrategyService.getPriceVariationLimitStrategy(instrument);
+		IPriceVariationLimitStrategy strategy = priceLimitStrategyService.getPriceVariationLimitStrategy(instrument);
 		if (strategy == null) {
 			return new OrderValidateResult(OrderValidationState.Skip,
 					String.format("No price limit strategy found for instrument %s", instrument.getSymbol()));
@@ -48,7 +48,7 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 		}
 	}
 
-	public OrderValidateResult validatePriceVariation(Order order, IPriceVarationLimitStrategy strategy,
+	public OrderValidateResult validatePriceVariation(Order order, IPriceVariationLimitStrategy strategy,
 			BigDecimal referencePrice) {
 
 		return validatePriceVariation(order, strategy, referencePrice,
@@ -57,7 +57,7 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 						: null);
 	}
 
-	public static OrderValidateResult validatePriceVariation(Order order, IPriceVarationLimitStrategy strategy,
+	public static OrderValidateResult validatePriceVariation(Order order, IPriceVariationLimitStrategy strategy,
 			BigDecimal referencePrice, ITickTable tickTable) {
 		// Why reference price - order price??
 		BigDecimal priceDiff = order.getPrice().subtract(referencePrice);
