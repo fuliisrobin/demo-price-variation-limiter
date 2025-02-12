@@ -11,6 +11,7 @@ import com.fuli.tradingsystem.order.validate.service.IQuoteService;
 
 @Component("quoteService")
 public class QuoteService implements IQuoteService{
+	// Dummy implementation for demo purpose
 	@Autowired
 	private Map<String, Price> quoteRepository;
 

@@ -3,6 +3,9 @@ package com.fuli.tradingsystem.entities.impl;
 import java.math.BigDecimal;
 
 
+/**
+ * Price entity which include price of instrument.
+ */
 public class Price {
 
 	BigDecimal lastPrice;

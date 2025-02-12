@@ -9,6 +9,9 @@ import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.PriceVariationScenario;
 import com.fuli.tradingsystem.entities.PriceVariationType;
 
+/**
+ * Dummy implementation for demo purpose
+ */
 @Component
 public class SimplePriceVariationLimitStrategyRepository
 		extends ConcurrentHashMap<String, IPriceVariationLimitStrategy> {

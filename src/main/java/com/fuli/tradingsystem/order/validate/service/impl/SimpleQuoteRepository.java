@@ -6,7 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 import com.fuli.tradingsystem.entities.impl.Price;
-
+/**
+ * Dummy implementation for demo purpose
+ */
 @Component("quoteRepository")
 public class SimpleQuoteRepository extends ConcurrentHashMap<String, Price>{
 

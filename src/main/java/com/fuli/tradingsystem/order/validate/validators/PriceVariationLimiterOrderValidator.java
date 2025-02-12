@@ -17,6 +17,9 @@ import com.fuli.tradingsystem.order.validate.service.IPriceVariationLimitStrateg
 import com.fuli.tradingsystem.order.validate.service.IQuoteService;
 import com.fuli.tradingsystem.order.validate.service.ITickTableService;
 
+/**
+ * Core validator of price variation.
+ */
 @Component
 @org.springframework.core.annotation.Order(2)
 public class PriceVariationLimiterOrderValidator implements IOrderValidator {
@@ -27,15 +30,20 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 	@Autowired
 	IPriceVariationLimitStrategyService priceLimitStrategyService;
 
+	/**
+	 * Validate if the order's price variation is under a threshold.
+	 * Basic fields of the order should have already been validated 
+	 */
 	@Override
 	public OrderValidateResult validate(Order order) {
 		Instrument instrument = order.getInstrument();
-
 		IPriceVariationLimitStrategy strategy = priceLimitStrategyService.getPriceVariationLimitStrategy(instrument);
+		
+		// TODO Question: if no price limit strategy for this instrument, should the order proceed?
 		if (strategy == null) {
 			return new OrderValidateResult(OrderValidationState.Skip,
 					String.format("No price limit strategy found for instrument %s", instrument.getSymbol()));
-		} else if (strategy.getScenario() == PriceVariationScenario.Skip) {
+		} else if (strategy.getScenario() == PriceVariationScenario.Skip) { // TODO is this `Skip` necessary?
 			return new OrderValidateResult(OrderValidationState.Skip,
 					String.format("Price limit strategy is \"SKIP\" for instrument %s", instrument.getSymbol()));
 		} else {
@@ -57,11 +65,18 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 						: null);
 	}
 
+	/**
+	 * Static (stateless) method to validate the order, need all the information needed for the validation. 
+	 * @param order Order object
+	 * @param strategy Strategy object
+	 * @param referencePrice reference Price, calculation logic see com.fuli.tradingsystem.entities.impl.Price
+	 * @param tickTable
+	 * @return Validation result as OrderValidateResult
+	 */
 	public static OrderValidateResult validatePriceVariation(Order order, IPriceVariationLimitStrategy strategy,
 			BigDecimal referencePrice, ITickTable tickTable) {
-		// Why reference price - order price??
-		BigDecimal priceDiff = order.getPrice().subtract(referencePrice);
-		BigDecimal priceVariation = BigDecimal.ZERO;
+		// Use price - reference price, slightly different from the document.
+		BigDecimal priceVariation, priceDiff = order.getPrice().subtract(referencePrice);
 		PriceVariationType variationType = strategy.getType();
 
 		StringBuilder alertMsg = new StringBuilder(String.format("VariationType:%s,AllowedVariation:%s,Scenario:%s",
@@ -77,11 +92,14 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 			}
 			priceVariation = tickTable.getTicksVariation(order.getPrice(), referencePrice)
 					.multiply(BigDecimal.valueOf(priceDiff.signum()));
+		} else {
+			throw new IllegalArgumentException("Illegal PriceVariationType when validating order price variation.");
 		}
 		alertMsg.append(",Price:").append(order.getPrice().setScale(2));
 		alertMsg.append(",ReferencePrice:").append(referencePrice.setScale(2));
 		alertMsg.append(String.format(",ActualVariation:%s", priceVariation.setScale(2).toString()));
 
+		// Intentionally put this as uninitialized, to avoid missing branch before using this variable. 
 		OrderValidationState validationResult;
 		if (priceVariation.abs().compareTo(strategy.getValue()) >= 0) {
 			alertMsg.append(",").append(order.getSide().name()).append(priceVariation.signum() > 0 ? " higher" : " lower");

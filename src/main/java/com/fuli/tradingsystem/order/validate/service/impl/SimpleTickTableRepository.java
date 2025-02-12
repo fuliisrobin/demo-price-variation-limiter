@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.fuli.tradingsystem.entities.ITickTable;
 import com.fuli.tradingsystem.entities.impl.TickTable;
-
+/**
+ * Dummy implementation for demo purpose
+ */
 @Component("tickTableRepository")
 public class SimpleTickTableRepository extends ConcurrentHashMap<String, ITickTable>{
 

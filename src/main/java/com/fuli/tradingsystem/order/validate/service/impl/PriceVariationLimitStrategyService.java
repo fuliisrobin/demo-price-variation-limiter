@@ -9,6 +9,9 @@ import com.fuli.tradingsystem.order.validate.service.IPriceVariationLimitStrateg
 
 @Component
 public class PriceVariationLimitStrategyService implements IPriceVariationLimitStrategyService {
+	/**
+	 * Dummy implementation for demo purpose
+	 */
 	@Autowired
 	SimplePriceVariationLimitStrategyRepository priceVariationLimitStrategyRepo;
 	

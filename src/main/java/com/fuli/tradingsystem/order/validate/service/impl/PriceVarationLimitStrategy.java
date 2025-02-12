@@ -8,8 +8,11 @@ import com.fuli.tradingsystem.entities.PriceVariationType;
 
 public class PriceVarationLimitStrategy implements IPriceVariationLimitStrategy {
 	
+	// Percentage, Absolute, TickSize
 	private PriceVariationType type;
+	// Max variation value
 	private BigDecimal value;
+	// Advantage, Disadvantage, Both, Skip
 	private PriceVariationScenario scenario;
 	
 	public PriceVariationType getType() {
