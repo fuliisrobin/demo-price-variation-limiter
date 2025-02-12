@@ -62,7 +62,74 @@ Implement a price variation limiter with following features, the input is an Ord
 * No trades should be allowed if there are not any reference prices.
 
 # Acceptance Criteria
-* TODO
+
+## 1. Product Type Support
+- The price variation limiter must be applicable to specified equity product types: Stock, Option, and Future.
+
+## 2. Price Variation Calculation Methods
+- **Percentage Calculation**:
+  Given an order price and a reference price, the formula `(order price - reference price) / reference price` should be correctly implemented.
+- **Absolute Value Calculation**:
+  Given an order price and a reference price, the formula `|order price - reference price|`, should be correctly implemented.
+- **Tick Size Calculation**:
+  Given an order price and a reference price, get the min and max of the 2 prices as `minPrice` and `maxPrice` tick size should be calculated based on scenarios.
+  - If `minPrice` and `maxPrice` are in the same tick table range, get the `tickSize` of this range and apply the folumar `(maxPrice - minPrice) / tickSize`
+  - If  `minPrice` and `maxPrice` are in different tick table range, the value between `minPrice` and `maxPrice` should be broken down into 2 or more ranges and each of them applies their own tickSize.
+
+## 3. Validation Scenarios
+- **Only at Advantage**:
+    If the limiter is configured to support advantage situation:
+    - buying at a price much lower than the reference price
+    - selling at a price much higher than the reference price
+    
+    as per the regulatory compliance requirement, the alert should include the alert message based on below table.
+<center>
+
+|        |High            |Low           |
+|--------|----------------|--------------|
+|**Buy** |Buy High, Pass  |Buy Low, Alert|
+|**Sell**|Sell High, Alert|Sell Low, Pass|
+
+</center>
+
+- **Only at Disadvantage**:
+    If the limiter is configured to support disadvantage situation:
+    - buying at a price much higher than the reference price
+    - selling at a price much lower than the reference price
+    
+    to protect against financial losses, the alert should include the alert message based on below table.
+
+<center>
+
+|        |High            |Low            |
+|--------|----------------|---------------|
+|**Buy** |Buy High, Alert |Buy Low, Pass  |
+|**Sell**|Sell High, Pass |Sell Low, Alert|
+
+</center>
+
+- **Both**:
+    If the limiter is configured to support both advantage and disadvantage scenarios, it should trigger an alert whenever the price variation exceeds the configured limit, regardless of whether it is an advantage or disadvantage situation, the alert should include the alert message based on below table.
+
+<center>
+
+|        |High            |Low            |
+|--------|----------------|---------------|
+|**Buy** |Buy High, Alert |Buy Low, Alert |
+|**Sell**|Sell High, Alert|Sell Low, Alert|
+
+</center>
+ 
+## 4. Reference Price Calculation
+
+- If the last traded price is available for an instrument, it should be used as the reference price.
+- If the last traded price is not available, the close price should be used as the fallback reference price.
+- If neither the last traded price nor the close price is available, the theo price should be used as the reference price.
+- If none of the last traded price, close price, theo price is available, **Order should be blocked by the validator**.
+ 
+## 5. Output and Alerting
+- The output of the price variation limiter should clearly indicate whether the price variation limiter is activated or not.
+- If the limiter is activated, an appropriate alert message should be generated, indicating the reason for the activation, such as the calculated price variation exceeding the configured limit, the type of calculation method used (percentage, absolute value, or tick size), and the validation scenario (advantage, disadvantage, or both) that led to the activation.
 
 # Tests Data & Scenarios 
 ## Tick table of KS200400F5.KS
