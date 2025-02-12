@@ -1,0 +1,11 @@
+package com.fuli.tradingsystem.order.validate.validators;
+public enum OrderValidationState {
+	Skip(0), Pass(1),  Block(2);
+    private int level = 0;
+    OrderValidationState(int level) {
+        this.level = level;
+    }
+    public int getLevel() {
+        return level;
+    }
+}
