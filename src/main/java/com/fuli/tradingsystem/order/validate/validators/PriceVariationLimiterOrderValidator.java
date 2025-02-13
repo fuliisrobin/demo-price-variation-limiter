@@ -32,7 +32,7 @@ public class PriceVariationLimiterOrderValidator implements IOrderValidator {
 
 	/**
 	 * Validate if the order's price variation is under a threshold.
-	 * Basic fields of the order should have already been validated 
+	 * Basic fields of the order should have already been validated
 	 */
 	@Override
 	public OrderValidateResult validate(Order order) {

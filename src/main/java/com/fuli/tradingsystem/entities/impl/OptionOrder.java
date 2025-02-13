@@ -2,13 +2,14 @@ package com.fuli.tradingsystem.entities.impl;
 
 import java.math.BigDecimal;
 
+import com.fuli.tradingsystem.entities.InstrumentType;
 import com.fuli.tradingsystem.entities.TradeSide;
 
 public class OptionOrder extends Order{
 
     private BigDecimal quantity;
-    public OptionOrder(Instrument instrument, TradeSide side, BigDecimal price, BigDecimal quantity) {
-        super(instrument, side, price);
+    public OptionOrder(String symbol, TradeSide side, BigDecimal price, BigDecimal quantity) {
+        super(new Instrument(symbol, InstrumentType.Option), side, price);
         this.quantity = quantity;
     }
     

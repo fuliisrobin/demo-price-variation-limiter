@@ -6,6 +6,9 @@ import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.PriceVariationScenario;
 import com.fuli.tradingsystem.entities.PriceVariationType;
 
+/**
+ * This is the strategy used by the 
+ */
 public class PriceVarationLimitStrategy implements IPriceVariationLimitStrategy {
 	
 	// Percentage, Absolute, TickSize
