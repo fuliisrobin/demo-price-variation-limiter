@@ -12,6 +12,7 @@ import com.fuli.tradingsystem.entities.impl.StockOrder;
 import com.fuli.tradingsystem.order.controllers.entities.FutureOrderInput;
 import com.fuli.tradingsystem.order.controllers.entities.OptionOrderInput;
 import com.fuli.tradingsystem.order.controllers.entities.StockOrderInput;
+import com.fuli.tradingsystem.order.place.PlaceOrderOptions;
 import com.fuli.tradingsystem.order.place.service.PlaceOrderResult;
 import com.fuli.tradingsystem.order.place.service.impl.PlaceFutureOrderService;
 import com.fuli.tradingsystem.order.place.service.impl.PlaceOptionOrderService;
@@ -31,18 +32,26 @@ public class PlaceOrderController {
     @PostMapping("/stock/order/place")
     public PlaceOrderResult placeStockOrder(@RequestBody StockOrderInput input) {
 	StockOrder order = new StockOrder(input.getSymbol(), input.getSide(), input.getPrice(), input.getQuantity());
-	return this.placeStockOrderService.placeOrder(order, null);
+	PlaceOrderOptions options = new PlaceOrderOptions();
+	options.setDryRun(input.isDryRun());
+	
+	// We can also build OrderOption using this input
+	return this.placeStockOrderService.placeOrder(order, options);
     }
 
     @PostMapping("/option/order/place")
     public PlaceOrderResult placeOptionOrder(@RequestBody OptionOrderInput input) {
 	OptionOrder order = new OptionOrder(input.getSymbol(), input.getSide(), input.getPrice(), input.getQuantity());
-	return this.placeOptionOrderService.placeOrder(order, null);
+	PlaceOrderOptions options = new PlaceOrderOptions();
+	options.setDryRun(input.isDryRun());
+	return this.placeOptionOrderService.placeOrder(order, options);
     }
 
     @PostMapping("/future/order/place")
     public PlaceOrderResult placeFutureOrder(@RequestBody FutureOrderInput input) {
 	FutureOrder order = new FutureOrder(input.getSymbol(), input.getSide(), input.getPrice());
-	return this.placeFutureOrderService.placeOrder(order, null);
+	PlaceOrderOptions options = new PlaceOrderOptions();
+	options.setDryRun(input.isDryRun());
+	return this.placeFutureOrderService.placeOrder(order, options);
     }
 }

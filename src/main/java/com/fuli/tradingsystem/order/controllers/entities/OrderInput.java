@@ -8,6 +8,15 @@ public class OrderInput {
     private String symbol;
     private TradeSide side;
     private BigDecimal price;
+    private boolean dryRun;
+
+    public boolean isDryRun() {
+        return dryRun;
+    }
+
+    public void setDryRun(boolean dryRun) {
+        this.dryRun = dryRun;
+    }
 
     public String getSymbol() {
 	return symbol;
