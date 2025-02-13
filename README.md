@@ -42,11 +42,11 @@ Before you begin, ensure you have met the following requirements:
 1. Integration test with the webservice
 - Test buy high (Pass)
     ```sh
-     curl --data '{"order": {"price": "9.89", "instrument": {"type": "Stock", "symbol": "KS200400F5.KS"}, "quantity": "1000", "side": "Buy"}}' -X POST -H 'content-type:application/json' http://localhost:8080/api/stockorder/place -vv
+     curl --data '{"price": "9.89", "symbol":"KS200400F5.KS", "quantity": "1000", "side": "Buy"}' -X POST -H 'content-type:application/json' http://10.1.50.43:8080/api/stock/order/place -vv
     ```
 - Test buy low (Block)
     ```sh
-     curl --data '{"order": {"price": "7.89", "instrument": {"type": "Stock", "symbol": "KS200400F5.KS"}, "quantity": "1000", "side": "Buy"}}' -X POST -H 'content-type:application/json' http://localhost:8080/api/stockorder/place -vv
+     curl --data '{"price": "7.89", "symbol":"KS200400F5.KS", "quantity": "1000", "side": "Buy"}' -X POST -H 'content-type:application/json' http://10.1.50.43:8080/api/stock/order/place -vv
     ```
 2. Test with unit test
 - Edit and run core test cases at src/test/java/com/fuli/tradingsystem/order/validate/validators/PriceVariationLimiterOrderValidatorTest.java
