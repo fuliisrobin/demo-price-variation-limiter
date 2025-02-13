@@ -36,4 +36,12 @@ public class OrderValidationService implements IOrderValidationService {
 	    return resultCount == results.length ? results : Arrays.copyOf(results, resultCount);
 	    
 	}
+	/**
+	 * Mostly for UT
+	 * @param validators
+	 */
+	void setValidators(List<IOrderValidator> validators) {
+	    this.validators = validators;
+	    
+	}
 }
