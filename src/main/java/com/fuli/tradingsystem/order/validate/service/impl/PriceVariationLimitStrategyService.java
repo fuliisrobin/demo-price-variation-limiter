@@ -9,15 +9,15 @@ import com.fuli.tradingsystem.order.validate.service.IPriceVariationLimitStrateg
 
 @Component
 public class PriceVariationLimitStrategyService implements IPriceVariationLimitStrategyService {
-	/**
-	 * Dummy implementation for demo purpose
-	 */
-	@Autowired
-	SimplePriceVariationLimitStrategyRepository priceVariationLimitStrategyRepo;
-	
-	@Override
-	public IPriceVariationLimitStrategy getPriceVariationLimitStrategy(Instrument instrument) {
-		return this.priceVariationLimitStrategyRepo.get(instrument.getSymbol());
-	}
+    /**
+     * Dummy implementation for demo purpose
+     */
+    @Autowired
+    SimplePriceVariationLimitStrategyRepository priceVariationLimitStrategyRepo;
+
+    @Override
+    public IPriceVariationLimitStrategy getPriceVariationLimitStrategy(Instrument instrument) {
+	return this.priceVariationLimitStrategyRepo.get(instrument.getSymbol());
+    }
 
 }

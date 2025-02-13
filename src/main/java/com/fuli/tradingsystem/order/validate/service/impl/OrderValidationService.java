@@ -15,33 +15,35 @@ import com.fuli.tradingsystem.order.validate.validators.OrderValidationState;
 
 @Component
 public class OrderValidationService implements IOrderValidationService {
-	// These validators are injected by spring, there can be multiple validators
-	@Autowired(required = false)
-	private List<IOrderValidator> validators = new ArrayList<>();
-	
-	/**
-	 * Validate and return the array of result.
-	 * If prior one validation fails, the remaining validators will not execute.
-	 */
-	public OrderValidateResult[] validate(Order order) {
-	    
-	    OrderValidateResult[] results = new OrderValidateResult[validators.size()];
-	    int resultCount = 0;
-	    for(IOrderValidator validator: validators) {
-		OrderValidateResult result = results[resultCount++] = validator.validate(order);
-		if(result.level().getLevel() >= OrderValidationState.Block.getLevel()) {
-		    break;
-		}
+    // These validators are injected by spring, there can be multiple validators
+    @Autowired(required = false)
+    private List<IOrderValidator> validators = new ArrayList<>();
+
+    /**
+     * Validate and return the array of result. If prior one validation fails, the
+     * remaining validators will not execute.
+     */
+    public OrderValidateResult[] validate(Order order) {
+
+	OrderValidateResult[] results = new OrderValidateResult[validators.size()];
+	int resultCount = 0;
+	for (IOrderValidator validator : validators) {
+	    OrderValidateResult result = results[resultCount++] = validator.validate(order);
+	    if (result.level().getLevel() >= OrderValidationState.Block.getLevel()) {
+		break;
 	    }
-	    return resultCount == results.length ? results : Arrays.copyOf(results, resultCount);
-	    
 	}
-	/**
-	 * Mostly for UT
-	 * @param validators
-	 */
-	void setValidators(List<IOrderValidator> validators) {
-	    this.validators = validators;
-	    
-	}
+	return resultCount == results.length ? results : Arrays.copyOf(results, resultCount);
+
+    }
+
+    /**
+     * Mostly for UT
+     * 
+     * @param validators
+     */
+    void setValidators(List<IOrderValidator> validators) {
+	this.validators = validators;
+
+    }
 }

@@ -5,6 +5,6 @@ import com.fuli.tradingsystem.entities.impl.Price;
 
 public interface IQuoteService {
 
-	Price getPrice(Instrument instrument);
+    Price getPrice(Instrument instrument);
 
 }

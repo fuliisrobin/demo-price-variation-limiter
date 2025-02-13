@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation is to decorate the target method so that the aspectj could creat pointcut around it.
- * It's intended to pointcut the placeOrderService.
+ * This annotation is to decorate the target method so that the aspectj could
+ * creat pointcut around it. It's intended to pointcut the placeOrderService.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

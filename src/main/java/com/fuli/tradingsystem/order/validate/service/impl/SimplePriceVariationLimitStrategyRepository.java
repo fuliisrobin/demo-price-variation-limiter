@@ -14,29 +14,29 @@ import com.fuli.tradingsystem.entities.PriceVariationType;
  */
 @Component
 public class SimplePriceVariationLimitStrategyRepository
-		extends ConcurrentHashMap<String, IPriceVariationLimitStrategy> {
-	private static final long serialVersionUID = 1L;
+	extends ConcurrentHashMap<String, IPriceVariationLimitStrategy> {
+    private static final long serialVersionUID = 1L;
 
-	public SimplePriceVariationLimitStrategyRepository() {
-		this.init();
+    public SimplePriceVariationLimitStrategyRepository() {
+	this.init();
+    }
+
+    public void init() {
+	{
+	    PriceVarationLimitStrategy strategy = new PriceVarationLimitStrategy();
+	    strategy.setScenario(PriceVariationScenario.Disadvantage);
+	    strategy.setType(PriceVariationType.TickSize);
+	    strategy.setValue(BigDecimal.valueOf(8));
+
+	    this.put("KS200400F5.KS", strategy);
 	}
+	{
+	    PriceVarationLimitStrategy strategy = new PriceVarationLimitStrategy();
+	    strategy.setScenario(PriceVariationScenario.Both);
+	    strategy.setType(PriceVariationType.Absolute);
+	    strategy.setValue(BigDecimal.valueOf(10));
 
-	public void init() {
-		{
-			PriceVarationLimitStrategy strategy = new PriceVarationLimitStrategy();
-			strategy.setScenario(PriceVariationScenario.Disadvantage);
-			strategy.setType(PriceVariationType.TickSize);
-			strategy.setValue(BigDecimal.valueOf(8));
-
-			this.put("KS200400F5.KS", strategy);
-		}
-		{
-			PriceVarationLimitStrategy strategy = new PriceVarationLimitStrategy();
-			strategy.setScenario(PriceVariationScenario.Both);
-			strategy.setType(PriceVariationType.Absolute);
-			strategy.setValue(BigDecimal.valueOf(10));
-
-			this.put("VOD.L", strategy);
-		}
+	    this.put("VOD.L", strategy);
 	}
+    }
 }

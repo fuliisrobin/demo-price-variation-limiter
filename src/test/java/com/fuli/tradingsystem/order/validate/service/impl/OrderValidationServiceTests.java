@@ -27,57 +27,58 @@ public class OrderValidationServiceTests {
 
     @BeforeEach
     public void setUp() {
-        // Initialize the service with mocked validators
-        OrderValidationService service = new OrderValidationService();
-        service.setValidators(new ArrayList<>());
-        orderValidationService = service;
+	// Initialize the service with mocked validators
+	OrderValidationService service = new OrderValidationService();
+	service.setValidators(new ArrayList<>());
+	orderValidationService = service;
     }
 
     @Test
     public void testValidate_AllPass() {
-        // Mock data
-        Order order = mock(Order.class);
-        
-        List<IOrderValidator> validatorList = new ArrayList<>();
-        {
-            IOrderValidator validator = mock(IOrderValidator.class);
-            when(validator.validate(order)).thenReturn(new OrderValidateResult(OrderValidationState.Pass, "Pass msg"));
-            validatorList.add(validator);
-        }
-        // Inject mocked validators into the service
-        orderValidationService.setValidators(validatorList);
+	// Mock data
+	Order order = mock(Order.class);
 
-        // Perform validation
-        OrderValidateResult[] results = orderValidationService.validate(order);
+	List<IOrderValidator> validatorList = new ArrayList<>();
+	{
+	    IOrderValidator validator = mock(IOrderValidator.class);
+	    when(validator.validate(order)).thenReturn(new OrderValidateResult(OrderValidationState.Pass, "Pass msg"));
+	    validatorList.add(validator);
+	}
+	// Inject mocked validators into the service
+	orderValidationService.setValidators(validatorList);
 
-        // Assertions
-        assertEquals(1, results.length);
-        assertEquals(OrderValidationState.Pass, results[0].level());
+	// Perform validation
+	OrderValidateResult[] results = orderValidationService.validate(order);
+
+	// Assertions
+	assertEquals(1, results.length);
+	assertEquals(OrderValidationState.Pass, results[0].level());
     }
 
     @Test
     public void testValidate_FirstFails() {
-        // Mock data
-        Order order = mock(Order.class);
-        List<IOrderValidator> validatorList = new ArrayList<>();
-        {
-            IOrderValidator validator = mock(IOrderValidator.class);
-            when(validator.validate(order)).thenReturn(new OrderValidateResult(OrderValidationState.Block, "Block msg"));
-            validatorList.add(validator);
-        }
-        {
-            IOrderValidator validator = mock(IOrderValidator.class);
-            when(validator.validate(order)).thenReturn(new OrderValidateResult(OrderValidationState.Pass, "Pass msg"));
-            validatorList.add(validator);
-        }
-        // Inject mocked validators into the service
-        ((OrderValidationService) orderValidationService).setValidators(validatorList);
+	// Mock data
+	Order order = mock(Order.class);
+	List<IOrderValidator> validatorList = new ArrayList<>();
+	{
+	    IOrderValidator validator = mock(IOrderValidator.class);
+	    when(validator.validate(order))
+		    .thenReturn(new OrderValidateResult(OrderValidationState.Block, "Block msg"));
+	    validatorList.add(validator);
+	}
+	{
+	    IOrderValidator validator = mock(IOrderValidator.class);
+	    when(validator.validate(order)).thenReturn(new OrderValidateResult(OrderValidationState.Pass, "Pass msg"));
+	    validatorList.add(validator);
+	}
+	// Inject mocked validators into the service
+	((OrderValidationService) orderValidationService).setValidators(validatorList);
 
-        // Perform validation
-        OrderValidateResult[] results = orderValidationService.validate(order);
+	// Perform validation
+	OrderValidateResult[] results = orderValidationService.validate(order);
 
-        // Assertions
-        assertEquals(1, results.length);
-        assertEquals(OrderValidationState.Block, results[0].level());
+	// Assertions
+	assertEquals(1, results.length);
+	assertEquals(OrderValidationState.Block, results[0].level());
     }
 }

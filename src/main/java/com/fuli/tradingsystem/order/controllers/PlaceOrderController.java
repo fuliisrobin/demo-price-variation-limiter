@@ -12,8 +12,6 @@ import com.fuli.tradingsystem.entities.impl.StockOrder;
 import com.fuli.tradingsystem.order.controllers.entities.FutureOrderInput;
 import com.fuli.tradingsystem.order.controllers.entities.OptionOrderInput;
 import com.fuli.tradingsystem.order.controllers.entities.StockOrderInput;
-import com.fuli.tradingsystem.order.place.CommonPlaceOrderOptions;
-import com.fuli.tradingsystem.order.place.PlaceOrderAction;
 import com.fuli.tradingsystem.order.place.service.PlaceOrderResult;
 import com.fuli.tradingsystem.order.place.service.impl.PlaceFutureOrderService;
 import com.fuli.tradingsystem.order.place.service.impl.PlaceOptionOrderService;
@@ -33,25 +31,18 @@ public class PlaceOrderController {
     @PostMapping("/stock/order/place")
     public PlaceOrderResult placeStockOrder(@RequestBody StockOrderInput input) {
 	StockOrder order = new StockOrder(input.getSymbol(), input.getSide(), input.getPrice(), input.getQuantity());
-	PlaceOrderAction<StockOrder, CommonPlaceOrderOptions> placeOrderAction = new PlaceOrderAction<StockOrder, CommonPlaceOrderOptions>(
-		order, new CommonPlaceOrderOptions());
-	return this.placeStockOrderService.placeOrder(placeOrderAction);
+	return this.placeStockOrderService.placeOrder(order, null);
     }
 
     @PostMapping("/option/order/place")
     public PlaceOrderResult placeOptionOrder(@RequestBody OptionOrderInput input) {
 	OptionOrder order = new OptionOrder(input.getSymbol(), input.getSide(), input.getPrice(), input.getQuantity());
-
-	PlaceOrderAction<OptionOrder, CommonPlaceOrderOptions> placeOrderAction = new PlaceOrderAction<OptionOrder, CommonPlaceOrderOptions>(
-		order, new CommonPlaceOrderOptions());
-	return this.placeOptionOrderService.placeOrder(placeOrderAction);
+	return this.placeOptionOrderService.placeOrder(order, null);
     }
 
     @PostMapping("/future/order/place")
     public PlaceOrderResult placeFutureOrder(@RequestBody FutureOrderInput input) {
 	FutureOrder order = new FutureOrder(input.getSymbol(), input.getSide(), input.getPrice());
-	PlaceOrderAction<FutureOrder, CommonPlaceOrderOptions> placeOrderAction = new PlaceOrderAction<FutureOrder, CommonPlaceOrderOptions>(
-		order, new CommonPlaceOrderOptions());
-	return this.placeFutureOrderService.placeOrder(placeOrderAction);
+	return this.placeFutureOrderService.placeOrder(order, null);
     }
 }

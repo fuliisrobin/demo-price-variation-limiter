@@ -7,5 +7,5 @@ import com.fuli.tradingsystem.order.validate.validators.OrderValidateResult;
  * Interface of OrderValidationService
  */
 public interface IOrderValidationService {
-	public OrderValidateResult[] validate(Order order);
+    public OrderValidateResult[] validate(Order order);
 }

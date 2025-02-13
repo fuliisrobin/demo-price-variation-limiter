@@ -8,17 +8,19 @@ import org.springframework.stereotype.Component;
 import com.fuli.tradingsystem.entities.ITickTable;
 import com.fuli.tradingsystem.entities.impl.Instrument;
 import com.fuli.tradingsystem.order.validate.service.ITickTableService;
+
 @Component
 public class TickTableService implements ITickTableService {
-	/**
-	 * Dummy implementation for demo purpose
-	 */
-	@Autowired
-	private Map<String, ITickTable> tickTableRepository;
-	@Override
-	public ITickTable getTickTable(Instrument instrument) {
-		// Considering caching tickTable
-		return tickTableRepository.get(instrument.getSymbol());
-	}
+    /**
+     * Dummy implementation for demo purpose
+     */
+    @Autowired
+    private Map<String, ITickTable> tickTableRepository;
+
+    @Override
+    public ITickTable getTickTable(Instrument instrument) {
+	// Considering caching tickTable
+	return tickTableRepository.get(instrument.getSymbol());
+    }
 
 }

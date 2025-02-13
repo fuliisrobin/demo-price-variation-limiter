@@ -10,15 +10,14 @@ import com.fuli.tradingsystem.entities.impl.Price;
 import com.fuli.tradingsystem.order.validate.service.IQuoteService;
 
 @Component("quoteService")
-public class QuoteService implements IQuoteService{
-	// Dummy implementation for demo purpose
-	@Autowired
-	private Map<String, Price> quoteRepository;
+public class QuoteService implements IQuoteService {
+    // Dummy implementation for demo purpose
+    @Autowired
+    private Map<String, Price> quoteRepository;
 
     @Override
     public Price getPrice(Instrument instrument) {
-        return quoteRepository.get(instrument.getSymbol());
+	return quoteRepository.get(instrument.getSymbol());
     }
-    
-}
 
+}

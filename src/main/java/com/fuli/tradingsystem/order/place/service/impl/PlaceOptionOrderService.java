@@ -3,18 +3,18 @@ package com.fuli.tradingsystem.order.place.service.impl;
 import org.springframework.stereotype.Component;
 
 import com.fuli.tradingsystem.entities.impl.OptionOrder;
-import com.fuli.tradingsystem.order.place.CommonPlaceOrderOptions;
-import com.fuli.tradingsystem.order.place.PlaceOrderAction;
+import com.fuli.tradingsystem.order.place.PlaceOrderOptions;
 import com.fuli.tradingsystem.order.place.service.PlaceOrderResult;
 import com.fuli.tradingsystem.order.validate.annotations.ValidateOrder;
 
 @Component("placeOptionOrderService")
-public class PlaceOptionOrderService extends PlaceOrderService<OptionOrder, CommonPlaceOrderOptions> {
+public class PlaceOptionOrderService extends PlaceOrderService<OptionOrder, PlaceOrderOptions> {
+    @Override
+    @ValidateOrder
+    public PlaceOrderResult placeOrder(OptionOrder order, PlaceOrderOptions orderOptions) {
+	// Option order specific logic goes here
 
-	@Override
-	@ValidateOrder
-	public PlaceOrderResult placeOrder(PlaceOrderAction<OptionOrder, CommonPlaceOrderOptions> action) {
-		return super.placeOrder(action);
-	}
+	return super.placeOrder(order, orderOptions);
+    }
 
 }

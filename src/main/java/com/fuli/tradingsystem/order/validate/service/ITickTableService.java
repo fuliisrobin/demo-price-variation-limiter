@@ -4,5 +4,5 @@ import com.fuli.tradingsystem.entities.ITickTable;
 import com.fuli.tradingsystem.entities.impl.Instrument;
 
 public interface ITickTableService {
-	public ITickTable getTickTable(Instrument instrument);
+    public ITickTable getTickTable(Instrument instrument);
 }

@@ -4,5 +4,5 @@ import com.fuli.tradingsystem.entities.IPriceVariationLimitStrategy;
 import com.fuli.tradingsystem.entities.impl.Instrument;
 
 public interface IPriceVariationLimitStrategyService {
-	public IPriceVariationLimitStrategy getPriceVariationLimitStrategy(Instrument instrument);
+    public IPriceVariationLimitStrategy getPriceVariationLimitStrategy(Instrument instrument);
 }
