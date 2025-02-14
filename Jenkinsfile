@@ -1,8 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      configMap 'jenkins-pod-template'
-      configMapKey 'pod-template.yaml'
+      yamlFile "/etc/jenkins/pod-template/pod-template.yaml"
       retries 2
     }
   }
