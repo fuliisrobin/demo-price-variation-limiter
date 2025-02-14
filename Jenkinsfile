@@ -26,7 +26,7 @@ pipeline {
             script {
             	sh '''
             	tar -czf context.tar.gz Dockerfile -C target demo-trading-system.jar
-				docker build -t ${env.IMAGE_REGISTRY}/${env.IMAGE_NAME}:v${env.BUILD_NUMBER} - < context.tar.gz
+				docker build -t "${IMAGE_REGISTRY}/${IMAGE_NAME}:v${BUILD_NUMBER}" - < context.tar.gz
             	'''
             }
             
@@ -36,8 +36,8 @@ pipeline {
 	stage("Publish image") {
         steps {
             script {
-                docker.withRegistry("${env.IMAGE_REGISTRY}", ${env.IMAGE_PUSH_CRED}) {                
-                	def dockerImage = docker.image("${env.IMAGE_REGISTRY}/${env.IMAGE_NAME}:v${BUILD_NUMBER}");
+                docker.withRegistry("${IMAGE_REGISTRY}", ${IMAGE_PUSH_CRED}) {                
+                	def dockerImage = docker.image("${IMAGE_REGISTRY}/${IMAGE_NAME}:v${BUILD_NUMBER}");
                     dockerImage.push();
                 }
             }
