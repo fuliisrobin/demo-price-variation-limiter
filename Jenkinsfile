@@ -33,12 +33,25 @@ pipeline {
 	stage("Publish image") {
         steps {
             script {
-                docker.withRegistry("${IMAGE_REGISTRY}", ${IMAGE_PUSH_CRED}) {                
+                docker.withRegistry("https://${IMAGE_REGISTRY}", "${IMAGE_PUSH_CRED}") {                
                 	def dockerImage = docker.image("${IMAGE_REGISTRY}/${IMAGE_NAME}:v${BUILD_NUMBER}");
                     dockerImage.push();
                 }
             }
         }
+    }
+    
+    stage("Build helm chart") {
+      steps {
+        script {
+          withCredentials([usernamePassword(credentialsId: "${IMAGE_PUSH_CRED}", passwordVariable: 'HARBOR_PASSWORD', usernameVariable: 'HARBOR_USERNAME')]) {
+            sh '''
+            helm package helm-charts --app-version=v${BUILD_NUMBER} --version=0.1.${BUILD_NUMBER}
+            helm push demo-trading-system-0.1.${BUILD_NUMBER}.tgz oci://10.5.1.16/hsbc-demo --username=${HARBOR_USERNAME} --password=${HARBOR_PASSWORD}
+            '''
+          }
+        }
+      }       
     }
   }
 }
