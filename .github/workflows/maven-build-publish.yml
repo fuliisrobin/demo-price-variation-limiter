@@ -18,7 +18,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
@@ -28,9 +28,9 @@ jobs:
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_SECRET }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: target/*.jar
-          asset_name: demo-trading-app.jar
+          asset_path: target/demo-trading-system.jar
+          asset_name: demo-trading-system.jar
           asset_content_type: application/java-archive
