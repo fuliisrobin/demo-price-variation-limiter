@@ -38,10 +38,14 @@ public class TickTable implements ITickTable {
         }
         Arrays.stream(segments).reduce((s1, s2) -> {
             if(s1.compareTo(s2) >= 0) {
-                throw new IllegalArgumentException("Segments must be incrementing and non-negative.");
+                throw new IllegalArgumentException("Segments must be incrementing.");
             }
             return s2;
         });
+
+        if (segments[0].compareTo(BigDecimal.ZERO) < 0 || tickSizes[0].compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Segments must be non-negative.");
+        }
     }
     
     @Override
